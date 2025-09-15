@@ -1,0 +1,22 @@
+[project]
+name = "drf"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "djangorestframework>=3.16.1",
+]
+
+[tool.ruff]
+line-length = 80
+indent-width = 2
+exclude = [
+    "migrations",
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+docstring-code-format = true
+exclude = ["migrations"]
