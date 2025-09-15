@@ -6,6 +6,8 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "djangorestframework>=3.16.1",
+    "dotenv>=0.9.9",
+    "psycopg2-binary>=2.9.10",
 ]
 
 [tool.ruff]
