@@ -31,16 +31,21 @@ def list_patients(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(["PUT", "DELETE"])
+@api_view(["GET", "PUT", "DELETE"])
 def update_patient(request, pk):
   patient = get_object_or_404(Patient, id=pk)
 
-  if request.method == "PUT":
+  if request.method == "GET":
+    serializer = PatientSerializer(patient)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+  elif request.method == "PUT":
     serializer = PatientSerializer(patient, data=request.data)
     if serializer.is_valid():
       serializer.save()
       return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
   elif request.method == "DELETE":
     patient.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)
