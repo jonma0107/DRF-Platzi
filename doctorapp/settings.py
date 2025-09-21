@@ -45,6 +45,7 @@ INSTALLED_APPS = [
   "patients",
   "doctors",
   "bookings",
+  "django_seed",
 ]
 
 MIDDLEWARE = [
