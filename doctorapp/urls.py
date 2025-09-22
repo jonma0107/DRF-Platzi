@@ -16,11 +16,46 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
+from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
+
+# from rest_framework import permissions
+# from rest_framework.authentication import SessionAuthentication
+# from rest_framework_simplejwt.authentication import JWTAuthentication
+from doctorapp.utils.schema_generator import DoctorappSchemaGenerator
+
+schema_view_authenticated = get_schema_view(
+  openapi.Info(
+    title="API Documentation",
+    default_version="v1",
+    description="Documentation for API.",
+  ),
+  public=True,
+  #   permission_classes=[permissions.IsAuthenticated],
+  #   authentication_classes=[JWTAuthentication, SessionAuthentication],
+  generator_class=DoctorappSchemaGenerator,
+)
 
 urlpatterns = [
   path("admin/", admin.site.urls),
   path("api/", include("patients.urls")),
   path("api/", include("doctors.urls")),
   #   path("api/", include("bookings.urls")),
+  # Swagger
+  path(
+    "swagger/",
+    schema_view_authenticated.with_ui("swagger", cache_timeout=0),
+    name="schema-swagger-ui",
+  ),
+  path(
+    "redoc/",
+    schema_view_authenticated.with_ui("redoc", cache_timeout=0),
+    name="schema-redoc",
+  ),
+  re_path(
+    r"^swagger(?P<format>\.json|\.yaml)$",
+    schema_view_authenticated.without_ui(cache_timeout=0),
+    name="schema-json-authenticated",
+  ),
 ]

@@ -46,6 +46,8 @@ INSTALLED_APPS = [
   "doctors",
   "bookings",
   "django_seed",
+  "drf_yasg",
+  "rest_framework_simplejwt",
 ]
 
 MIDDLEWARE = [
@@ -133,3 +135,32 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+REST_FRAMEWORK = {
+  "DEFAULT_AUTHENTICATION_CLASSES": [
+    "rest_framework.authentication.SessionAuthentication",
+    "rest_framework.authentication.TokenAuthentication",
+    "rest_framework_simplejwt.authentication.JWTAuthentication",
+  ],
+}
+
+SWAGGER_SETTINGS = {
+  "USE_SESSION_AUTH": True,
+  "OPERATIONS_SORTER": "alpha",
+  "DOC_EXPANSION": "none",
+  "SHOW_REQUEST_HEADERS": False,
+  "SECURITY_DEFINITIONS": {
+    "Bearer": {"type": "apiKey", "name": "Authorization", "in": "header"}
+  },
+}
+
+if DEBUG:
+  SWAGGER_SETTINGS["SUPPORTED_SUBMIT_METHODS"] = [
+    "get",
+    "post",
+    "put",
+    "delete",
+    "patch",
+  ]
+else:
+  SWAGGER_SETTINGS["SUPPORTED_SUBMIT_METHODS"] = []
