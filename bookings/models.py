@@ -2,6 +2,12 @@ from django.db import models
 from doctors.models import Doctor
 from patients.models import Patient
 
+Choices_Status = [
+  ("pending", "Pendiente"),
+  ("confirmed", "Confirmado"),
+  ("cancelled", "Cancelado"),
+]
+
 
 class Appointment(models.Model):
   patient = models.ForeignKey(
@@ -13,7 +19,9 @@ class Appointment(models.Model):
   appointment_date = models.DateField()
   appointment_time = models.TimeField()
   notes = models.TextField()
-  status = models.CharField(max_length=10)
+  status = models.CharField(
+    max_length=10, choices=Choices_Status, default="pending"
+  )
 
 
 class MedicalNote(models.Model):

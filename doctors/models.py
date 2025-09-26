@@ -10,6 +10,9 @@ class Doctor(models.Model):
   address = models.TextField()
   biography = models.TextField()
 
+  def __str__(self):
+    return f"{self.first_name} {self.last_name}"
+
 
 class Department(models.Model):
   name = models.CharField(max_length=100)
