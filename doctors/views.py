@@ -1,13 +1,23 @@
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from .models import Doctor
 from .serializers import DoctorSerializer
 
 from django.shortcuts import get_object_or_404
 
 
+"""
+VISTAS BASADAS EN FUNCIONES USAN @api_view()
+
+En vistas basadas en funciones con @api_view, 
+los permisos se colocan como decorador
+"""
+
+
 @api_view(["GET", "POST"])
+@permission_classes([IsAuthenticated])
 def list_doctors(request):
   if request.method == "GET":
     doctors = Doctor.objects.all()
@@ -22,6 +32,7 @@ def list_doctors(request):
 
 
 @api_view(["GET", "PUT", "DELETE"])
+@permission_classes([IsAuthenticated])
 def doctor_detail(request, pk):
   doctor = get_object_or_404(Doctor, pk=pk)
 

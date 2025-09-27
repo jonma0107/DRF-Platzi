@@ -138,9 +138,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
   "DEFAULT_AUTHENTICATION_CLASSES": [
-    "rest_framework.authentication.SessionAuthentication",
-    "rest_framework.authentication.TokenAuthentication",
-    "rest_framework_simplejwt.authentication.JWTAuthentication",
+    "rest_framework.authentication.SessionAuthentication",  # envía una coockie en cada request con el que se autentica el usuario
+    "rest_framework.authentication.TokenAuthentication",  # envía un token en cada request con el que se autentica el usuario
+    "rest_framework_simplejwt.authentication.JWTAuthentication",  # envía un token en cada request con el que se autentica el usuario
   ],
 }
 

@@ -4,11 +4,13 @@ from .serializers import AppointmentSerializer
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 
 
 class AppointmentViewSet(ModelViewSet):
   queryset = Appointment.objects.all()
   serializer_class = AppointmentSerializer
+  permission_classes = [IsAuthenticated]
 
   @action(
     ["GET"], detail=True, url_path="medical-history"

@@ -39,6 +39,9 @@ schema_view_authenticated = get_schema_view(
 
 urlpatterns = [
   path("admin/", admin.site.urls),
+  path(
+    "api/auth/", include("rest_framework.urls")
+  ),  # para que se pueda autenticar con el login de django
   path("api/patients/", include("patients.urls")),
   path("api/doctors/", include("doctors.urls")),
   path("api/bookings/", include("bookings.urls")),
