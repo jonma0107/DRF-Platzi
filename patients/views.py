@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
+from .permissions import IsAdminOrReadOnly
 
 """
 GET /patients/
@@ -20,7 +21,7 @@ VISTAS BASADAS EN CLASES USAN APIView() y en la urls se usa el .as_view()
 
 class PatientListView(APIView):
   allowed_methods = ["GET", "POST"]
-  permission_classes = [IsAuthenticated]
+  permission_classes = [IsAuthenticated, IsAdminOrReadOnly]
 
   def get(self, request):
     patients = Patient.objects.all()
@@ -37,7 +38,7 @@ class PatientListView(APIView):
 
 class PatientDetailView(APIView):
   allowed_methods = ["GET", "PUT", "DELETE"]
-  permission_classes = [IsAuthenticated]
+  permission_classes = [IsAuthenticated, IsAdminOrReadOnly]
 
   def get(self, request, pk):
     patient = get_object_or_404(Patient, id=pk)
