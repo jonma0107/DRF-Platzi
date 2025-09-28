@@ -6,6 +6,7 @@ from .models import Doctor
 from .serializers import DoctorSerializer
 
 from django.shortcuts import get_object_or_404
+from .permissions import IsAdminOrReadOnly
 
 
 """
@@ -17,7 +18,7 @@ los permisos se colocan como decorador
 
 
 @api_view(["GET", "POST"])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated, IsAdminOrReadOnly])
 def list_doctors(request):
   if request.method == "GET":
     doctors = Doctor.objects.all()
@@ -32,7 +33,7 @@ def list_doctors(request):
 
 
 @api_view(["GET", "PUT", "DELETE"])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated, IsAdminOrReadOnly])
 def doctor_detail(request, pk):
   doctor = get_object_or_404(Doctor, pk=pk)
 
