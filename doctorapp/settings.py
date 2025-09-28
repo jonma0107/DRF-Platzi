@@ -143,12 +143,14 @@ REST_FRAMEWORK = {
     "rest_framework_simplejwt.authentication.JWTAuthentication",  # envía un token en cada request con el que se autentica el usuario
   ],
   "DEFAULT_THROTTLE_CLASSES": [
-    "rest_framework.throttling.AnonRateThrottle",
-    "rest_framework.throttling.UserRateThrottle",
+    # "rest_framework.throttling.AnonRateThrottle",
+    # "rest_framework.throttling.UserRateThrottle",
+    "rest_framework.throttling.ScopedRateThrottle",
   ],
   "DEFAULT_THROTTLE_RATES": {
-    "anon": "100/day",
-    "user": "1000/day",
+    # "anon": "100/day",
+    # "user": "1000/day",
+    "patient": "5/min",
   },
 }
 

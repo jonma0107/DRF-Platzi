@@ -1,5 +1,9 @@
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import (
+  api_view,
+  permission_classes,
+  throttle_classes,
+)
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from .models import Doctor
@@ -7,6 +11,7 @@ from .serializers import DoctorSerializer
 
 from django.shortcuts import get_object_or_404
 from .permissions import IsAdminOrReadOnly
+from rest_framework.throttling import UserRateThrottle
 
 
 """
@@ -17,8 +22,13 @@ los permisos se colocan como decorador
 """
 
 
+class CustomUserRateThrottle(UserRateThrottle):
+  rate = "5/min"
+
+
 @api_view(["GET", "POST"])
 @permission_classes([IsAuthenticated, IsAdminOrReadOnly])
+@throttle_classes([CustomUserRateThrottle])
 def list_doctors(request):
   if request.method == "GET":
     doctors = Doctor.objects.all()
@@ -34,6 +44,7 @@ def list_doctors(request):
 
 @api_view(["GET", "PUT", "DELETE"])
 @permission_classes([IsAuthenticated, IsAdminOrReadOnly])
+@throttle_classes([CustomUserRateThrottle])
 def doctor_detail(request, pk):
   doctor = get_object_or_404(Doctor, pk=pk)
 
